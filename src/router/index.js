@@ -11,6 +11,7 @@ import Goods from '../components/goods/goodslist.vue'
 import Orders from '../components/order/order.vue'
 import Report from '../components/reports/report.vue'
 import GoodsCate from '../components/goods/goodscate.vue'
+import GoodsAdd from '../components/goods/goodsadd.vue'
 import Params from '../components/goods/cateparams.vue'
 import { Message } from 'element-ui'
 Vue.use(Router)
@@ -65,6 +66,11 @@ const router = new Router({
                         name: 'params',
                         path: '/params',
                         component: Params
+                    },
+                    {
+                        name: 'goodsAdd',
+                        path: '/goodsAdd',
+                        component: GoodsAdd
                     }
                 ]
             }
@@ -85,7 +91,8 @@ router.beforeEach((to, from, next) => {
             // this.$router.push({ name: 'Login' })
             Message.warning('回到登录页')
             router.push({
-                name: 'Login'
+                name: 'Login',
+
             })
             return
         }

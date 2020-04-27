@@ -197,10 +197,13 @@ export default {
   },
   methods: {
     //设置角色
+    
    async setRol() {
       const res = await this.$http.put("/api/users/"+ this.curruserid+"/role",{
         rid:this.currRoleId
       });
+      // this.$route.params.userid
+      // this.$query.userid
       console.log(res)
      this.dialogFormVisibleRol = false;
     },

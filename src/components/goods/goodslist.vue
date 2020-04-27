@@ -9,28 +9,30 @@
           @clear="loadGoodList"
           clearable
           placeholder="请输入内容"
-          v-model="query"
+          v-model="searchValue"
           class="inputSearch"
         >
           <el-button @click="searchGoods" slot="append" icon="el-icon-search"></el-button>
         </el-input>
-        <el-button type="success" @click="showAddGoodsDia">添加商品</el-button>
+        <el-button type="success" @click="$router.push({name:'goodsAdd'})" >添加商品</el-button>
       </el-col>
     </el-row>
     <!-- 表格 -->
     <!-- 3.表格 -->
-    <el-table height="450px" v- border stripe :data="list" style="width: 100%">
+    <el-table height="450px" v-border stripe :data="list" style="width: 100%">
+      <!-- 序号 -->
       <el-table-column type="index" label="#" width="60"></el-table-column>
-      <el-table-column prop="goods_name" label="姓名" width="180"></el-table-column>
-      <el-table-column prop="email" label="邮箱"></el-table-column>
-      <el-table-column prop="mobile" label="电话"></el-table-column>
-      <el-table-column label="创建时间">
+     
+      <el-table-column prop="goods_name" label="商品名称"></el-table-column>
+      <el-table-column prop="goods_price" label="商品价格(元)" width="100"></el-table-column>
+      <el-table-column prop="goods_weight" label="商品重置" width="80"></el-table-column>
+      <el-table-column label="创建日期" width="120">
         <!-- template 内部要用数据 设置slot-scope 属性
         该属性的值是要用数据create_time的数据源 userlist-->
-        <template slot-scope="userlist">
+        <template slot-scope="scope" >
           <!-- slot-scope的userlist其实 el-table绑定的数据userlist
           userlist.row->数组的每个对象-->
-          {{userlist.row.create_time | fmtdate}}
+          {{scope.row.add_time | fmtdate}}
         </template>
       </el-table-column>
       <el-table-column label="用户状态">
@@ -64,14 +66,14 @@
             circle
           ></el-button>
           <!-- check -->
-          <el-button
+          <!-- <el-button
             @click="showSetUserRoleDia(scope.row)"
             size="mini"
             plain
             type="success"
             icon="el-icon-check"
             circle
-          ></el-button>
+          ></el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -103,32 +105,34 @@ export default {
       pagenum: 1,
       pagesize: 2,
       //分页数据
-      total: 1
+      total: 1,
+      searchValue:""
     };
   },
   mounted() {
-    // this.getGoodsList();
+    this.getGoodsList();
   },
   methods: {
     //获取用户商品信息
     async getGoodsList() {
       let url =
         "/api/goods?query=" +
-        this.query +
+        this.searchValue +
         "&pagenum=" +
         this.pagenum +
         "&pagesize=" +
         this.pagesize;
       const res = await this.$http.get(url);
+      console.log("商品列表")
       console.log(res);
       const {
         meta: { status, msg },
-        data: { users, total }
+        data: { goods, total }
       } = res.data;
       if (status === 200) {
         // //给表格赋值
 
-        this.list = users;
+        this.list = goods;
         //给total赋值
         this.total = total;
         //提示

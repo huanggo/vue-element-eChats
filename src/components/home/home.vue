@@ -10,7 +10,7 @@
         <el-col :span="18" class="middle">
           <h3>电商后台管理系统</h3>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="2" >
           <div class="grid-content bg-purple">
             <a class="loginout" @click.prevent="handleSingnout" href="#">退出</a>
           </div>
